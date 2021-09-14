@@ -1,0 +1,405 @@
+     <!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Beat it Up</title>
+    <!-- paper.js CDN -->
+    <script type="text/javascript" src="paper-full.js"></script>
+    <!-- howler.js CDN -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.4/howler.js"></script>
+
+    <link rel="stylesheet" href="styles.css">
+
+    <link rel="icon" href="beat1.ico">
+
+    <script type="text/paperscript" canvas="myCanvas">
+
+
+
+       // Galaxy animation
+        var count = 150;
+
+        var path = new Path.Circle({
+	         center: [0, 0],
+          	radius: 10,
+          	fillColor: '80ced6',
+            // fillColor:'fff';
+	          strokeColor: 'black'
+        });
+
+        var symbol = new Symbol(path);
+
+        for (var i = 0; i < count; i++) {
+	          var center = Point.random() * view.size;
+	          var placedSymbol = symbol.place(center);
+	          placedSymbol.scale(i / count);
+         }
+
+
+
+    //keyboard listener keys
+
+    var keyData = {
+			q: {
+				sound: new Howl({
+		  		src: ['sounds/bubbles.mp3']
+				}),
+				color: '#1abc9c'
+			},
+			w: {
+				sound: new Howl({
+		  		src: ['sounds/clay.mp3']
+				}),
+				color: '#2ecc71'
+			},
+			e: {
+				sound: new Howl({
+		  		src: ['sounds/confetti.mp3']
+				}),
+				color: '#3498db'
+			},
+			r: {
+				sound: new Howl({
+		  		src: ['sounds/corona.mp3']
+				}),
+				color: '#9b59b6'
+			},
+				t: {
+				sound: new Howl({
+		  		src: ['sounds/dotted-spiral.mp3']
+				}),
+				color: '#34495e'
+			},
+			y: {
+				sound: new Howl({
+		  		src: ['sounds/flash-1.mp3']
+				}),
+				color: '#16a085'
+			},
+			u: {
+				sound: new Howl({
+		  		src: ['sounds/flash-2.mp3']
+				}),
+				color: '#27ae60'
+			},
+			i: {
+				sound: new Howl({
+		  		src: ['sounds/flash-3.mp3']
+				}),
+				color: '#2980b9'
+			},
+			o: {
+				sound: new Howl({
+					src: ['sounds/glimmer.mp3']
+				}),
+				color: '#8e44ad'
+			},
+			p: {
+				sound: new Howl({
+		  		src: ['sounds/moon.mp3']
+				}),
+				color: '#2c3e50'
+			},
+			a: {
+				sound: new Howl({
+		  		src: ['sounds/pinwheel.mp3']
+				}),
+				color: '#f1c40f'
+			},
+			s: {
+				sound: new Howl({
+		  		src: ['sounds/piston-1.mp3']
+				}),
+				color: '#e67e22'
+			},
+				d: {
+				sound: new Howl({
+		  		src: ['sounds/piston-2.mp3']
+				}),
+				color: '#e74c3c'
+			},
+			f: {
+				sound: new Howl({
+		  		src: ['sounds/prism-1.mp3']
+				}),
+				color: '#95a5a6'
+			},
+			g: {
+				sound: new Howl({
+		  		src: ['sounds/prism-2.mp3']
+				}),
+				color: '#f39c12'
+			},
+			h: {
+				sound: new Howl({
+		  		src: ['sounds/prism-3.mp3']
+				}),
+				color: '#d35400'
+			},
+			j: {
+				sound: new Howl({
+		  		src: ['sounds/splits.mp3']
+				}),
+				color: '#1abc9c'
+			},
+			k: {
+				sound: new Howl({
+		  		src: ['sounds/squiggle.mp3']
+				}),
+				color: '#2ecc71'
+			},
+			l: {
+				sound: new Howl({
+		  		src: ['sounds/strike.mp3']
+				}),
+				color: '#3498db'
+			},
+			z: {
+				sound: new Howl({
+		  		src: ['sounds/suspension.mp3']
+				}),
+				color: '#9b59b6'
+			},
+			x: {
+				sound: new Howl({
+		  		src: ['sounds/timer.mp3']
+				}),
+				color: '#34495e'
+			},
+			c: {
+				sound: new Howl({
+		  		src: ['sounds/ufo.mp3']
+				}),
+				color: '#16a085'
+			},
+			v: {
+				sound: new Howl({
+		  		src: ['sounds/veil.mp3']
+				}),
+				color: '#27ae60'
+			},
+			b: {
+				sound: new Howl({
+		  		src: ['sounds/wipe.mp3']
+				}),
+				color: '#2980b9'
+			},
+			n: {
+				sound: new Howl({
+					src: ['sounds/zig-zag.mp3']
+				}),
+				color: '#8e44ad'
+			},
+			m: {
+				sound: new Howl({
+		  		src: ['sounds/moon.mp3']
+				}),
+				color: '#2c3e50'
+			}
+		}
+
+
+
+    ////////required vars
+    var circles = [];
+    var sq = [];
+    var tri = [];
+    var cen = [];
+    var paths = [];
+    var des = [];
+    var star = [];
+
+
+    function onKeyDown(event){
+
+      //////////first row keyboard
+    if(event.key=='q'||event.key=='w'||event.key=='e'||event.key=='r'||event.key=='t'||event.key=='y'||event.key=='u'||event.key=='i'||event.key=='o'||event.key=='p'){
+ /////////circle animation
+      var maxPoint = new Point(view.size.width, view.size.height);
+      var randomPoint = Point.random();
+      var point = maxPoint * randomPoint;
+
+      var newCircle = new Path.Circle(point, 500)
+
+      newCircle.fillColor = keyData[event.key].color;
+      keyData[event.key].sound.play();
+
+      circles.push(newCircle);
+
+
+/////////square animation
+      var maxPoint1 = new Point(view.size.width, view.size.height);
+      var randomPoint1 = Point.random();
+      var point1 = maxPoint1 * randomPoint1;
+
+      var newSquare = new Path.Rectangle({
+        point: point1,
+        size: [175, 175],
+        strokeColor: 'black',
+        strokeWidth: 2
+      });
+      sq.push(newSquare);
+
+    }
+
+
+    // second row keyboard
+    if(event.key=='a'||event.key=='s'||event.key=='d'||event.key=='f'||event.key=='g'||event.key=='h'||event.key=='j'||event.key=='k'||event.key=='l'){
+
+
+//////triangle animation
+      var triangle = new Path.RegularPolygon(new Point(760, 440), 3, 100);
+      triangle.strokeColor = 'black';
+      triangle.rotate(90);
+      triangle.strokeWidth = 2;
+      tri.push(triangle);
+
+      keyData[event.key].sound.play();
+   }
+
+
+////////last row keyboard
+    if(event.key=='z'||event.key=='x'||event.key=='c'||event.key=='v'||event.key=='b'||event.key=='n'||event.key=='m'){
+
+///////////appreaing circle animation
+      var path = new Path.Circle({
+      center: [760, 760],
+      radius: 125,
+      fillColor: '#57CC99'
+
+       });
+      cen.push(path);
+      keyData[event.key].sound.play();
+/////////////appearing star
+      var path1 = new Path.Star({
+      center: [760, 0],
+      points: 7,
+      radius1: 15,
+      radius2: 40,
+      fillColor: 'yellow '
+       });
+      star.push(path1);
+
+    }
+
+
+
+///////////any other key
+    else{
+      //do nothing
+
+
+    }
+  }
+
+
+  // animations
+
+
+		function onFrame(event){
+
+      /////////for circle
+			for(var i = 0; i < circles.length; i++){
+			circles[i].fillColor.hue += 2;
+			circles[i].scale(.96);
+			if(circles[i].area < 1){
+			      circles[i].remove();
+			      circles.splice(i, 1);
+			    }
+			}
+
+
+
+      // square code
+
+      for(var i = 0; i < sq.length; i++){
+			sq[i].scale(1.04);
+				if(sq[i].area >10000000){
+			      sq[i].remove();
+            sq.slice(i,1);
+
+			    }
+			}
+
+
+
+
+      ////Triangle code
+
+
+      for(var i = 0; i < tri.length; i++){
+			tri[i].scale(1.04);
+				if(tri[i].area >10000000){
+			      tri[i].remove();
+			    }
+			}
+
+
+
+
+      //////centre code
+      for(var i = 0;i<cen.length;i++){
+
+        var destination = new Point(760, 360);
+        var vector = destination - cen[i].position;
+	      // cen[i].position += vector / 7.5;
+        cen[i].position += vector/7.5 ;
+	      if (vector.length < 5) {
+		     cen[i].scale(0.90);
+		    if(cen[i].area<1) cen[i].remove();
+	       }
+      }
+
+
+
+      for(var i = 0;i<star.length;i++){
+
+            var destination = new Point(760, 360);
+             var vector = destination - star[i].position;
+           // star[i].position += vector / 7.5;
+           star[i].position += vector/7.5;
+           if (vector.length < 5) {
+                   star[i].scale(0.90);
+              if(star[i].area<1) cen[i].remove();
+             }
+         }
+
+
+      /////////sprinkle code
+
+
+      // for(var i =0;i<5;i++){
+      //      	var vector = des[i] - paths[i].position;
+	    //        paths[i].position += vector / 12;
+	    //       if (vector.length < 5) {
+	    //            	paths[i].remove();
+	    //         }
+      //  }
+
+
+////////////////////Galaxy animation
+
+
+
+      for (var i = 0; i < count; i++) {
+		var item = project.activeLayer.children[i];
+
+		item.position.x += item.bounds.width / 15;
+	// item.position.y += item.bounds.height / 20;
+
+		if (item.bounds.left > view.size.width) {
+			item.position.x = -item.bounds.width;
+		}
+	}
+
+
+  ////////////////
+
+}
+    </script>
+
+  </head>
+  <body>
+    <canvas id="myCanvas" resize></canvas>
+  </body>
+</html>
